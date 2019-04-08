@@ -21,6 +21,7 @@ micronix_DBD += base.dbd
 # Include dbd files from all support applications:
 #ifdef ASYN
 micronix_DBD += asyn.dbd
+micronix_DBD += drvAsynSerialPort.dbd
 #endif
 micronix_DBD += motorSupport.dbd
 micronix_DBD += MicronixSupport.dbd
