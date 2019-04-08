@@ -23,10 +23,10 @@ micronix_DBD += base.dbd
 micronix_DBD += asyn.dbd
 #endif
 micronix_DBD += motorSupport.dbd
-micronix_DBD += devMicronix.dbd
+micronix_DBD += MicronixSupport.dbd
 
 # Add all the support libraries needed by this IOC
-micronix_LIBS += micronix
+micronix_LIBS += Micronix
 micronix_LIBS += motor
 #ifdef ASYN
 micronix_LIBS += asyn
