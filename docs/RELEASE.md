@@ -1,5 +1,23 @@
 # motorMicronix Releases
 
+## __R1-1 (2023-04-12)__
+R1-1 is a release based on the master branch.
+
+### Changes since R1-0-1
+
+#### New features
+* None
+
+#### Modifications to existing features
+* Commit [b106160](https://github.com/epics-motor/motorMicronix/commit/b1061603c03e8fd8df4914d5427127bf1add5e1e): Handle the MMC-103 version string
+
+#### Bug fixes
+* None
+
+#### Continuous integration
+* Added ci-scripts (v3.0.1)
+* Configured to use Github Actions for CI
+
 ## __R1-0-1 (2020-05-11)__
 R1-0-1 is a release based on the master branch.  
 
