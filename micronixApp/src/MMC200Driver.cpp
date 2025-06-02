@@ -210,6 +210,13 @@ MMC200Axis::MMC200Axis(MMC200Controller *pC, int axisNo)
     microSteps_ = 100;
   }
   
+  // Read the encoder resolution
+  sprintf(pC_->outString_, "%dENC?", axisIndex_);
+  status = pC_->writeReadController();
+  if (status != asynSuccess)
+    errorFlag = 1;
+  encoderResolution_ = atof&pC_->inString_[1]);
+  
   if (closedLoop_ == 0)
   {
     // Calculate motor resolution (mm / microstep)

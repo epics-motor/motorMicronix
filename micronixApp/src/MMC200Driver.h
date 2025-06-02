@@ -38,7 +38,7 @@ private:
   int closedLoop_;   /* 0 = Open Loop ; >=1 = Closed Loop */
   int rez_;          /* Units = picometers per full step */
   int microSteps_;   /* Units = microsteps per full step */
-  int encoderResolution_; /* Units = um/step or mdeg/step */
+  double encoderResolution_; /* Units = um/step or mdeg/step */
   double resolution_;   /* Units = mm per microstep */
   double maxVelocity_;  /* Units = mm per second */
   asynStatus sendAccelAndVelocity(double accel, double velocity);
