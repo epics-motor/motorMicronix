@@ -215,7 +215,7 @@ MMC200Axis::MMC200Axis(MMC200Controller *pC, int axisNo)
   status = pC_->writeReadController();
   if (status != asynSuccess)
     errorFlag = 1;
-  encoderResolution_ = atof&pC_->inString_[1]);
+  encoderResolution_ = atof(&pC_->inString_[1]);
   
   if (closedLoop_ == 0)
   {
