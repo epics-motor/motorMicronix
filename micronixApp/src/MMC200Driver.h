@@ -35,8 +35,10 @@ private:
   int axisIndex_;    /* Numbered from 1 */
   char versionStr_[256];  /* Version string */
   int model_;         /* Model number (200 or 100) */
+  int closedLoop_;   /* 0 = Open Loop ; >=1 = Closed Loop */
   int rez_;          /* Units = picometers per full step */
   int microSteps_;   /* Units = microsteps per full step */
+  int encoderResolution_; /* Units = um/step or mdeg/step */
   double resolution_;   /* Units = mm per microstep */
   double maxVelocity_;  /* Units = mm per second */
   asynStatus sendAccelAndVelocity(double accel, double velocity);

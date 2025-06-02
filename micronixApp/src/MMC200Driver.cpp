@@ -179,7 +179,14 @@ MMC200Axis::MMC200Axis(MMC200Controller *pC, int axisNo)
       functionName);
     model_ = -1;
   }
-
+  
+  // Read the closed-loop mode (0 = Open Loop; 1,2,3 = Closed Loop)
+  sprintf(pC_->outString_, "%dFBK?", axisIndex_);
+  status = pC_->writeReadController();
+  if (status != asynSuccess)
+    errorFlag = 1;
+  closedLoop_ = atoi(&pC_->inString_[1]);
+  
   // Read the axis resolution (units = tens of picometers per full step)
   sprintf(pC_->outString_, "%dREZ?", axisIndex_);
   status = pC_->writeReadController();
@@ -203,9 +210,17 @@ MMC200Axis::MMC200Axis(MMC200Controller *pC, int axisNo)
     microSteps_ = 100;
   }
   
-  // Calculate motor resolution (mm / microstep)
-  resolution_ = rez_ * 1e-8 / microSteps_;
-
+  if (closedLoop_ == 0)
+  {
+    // Calculate motor resolution (mm / microstep)
+    resolution_ = rez_ * 1e-8 / microSteps_;
+  }
+  else
+  {
+    // Calculate the encoder resolution (mm/count or deg/count)
+    resolution_ = encoderResolution_ / 1e3;
+  }
+  
   // Read max velocity (needed for jog speed calculation)
   sprintf(pC_->outString_, "%dVMX?", axisIndex_);
   status = pC_->writeReadController();
@@ -242,8 +257,10 @@ void MMC200Axis::report(FILE *fp, int level)
     fprintf(fp, "  axis index %d\n", axisIndex_);
     fprintf(fp, "  version %s\n", versionStr_);
     fprintf(fp, "  model %d\n", model_);
+    fprintf(fp, "  feedback mode %d\n", closedLoop_);
     fprintf(fp, "  rez %d\n", rez_);
     fprintf(fp, "  micro steps %d\n", microSteps_);
+    fprintf(fp, "  encoder resolution %f\n", encoderResolution_);
     fprintf(fp, "  resolution %f\n", resolution_);
     fprintf(fp, "  max velocity %f\n", maxVelocity_);
   }
