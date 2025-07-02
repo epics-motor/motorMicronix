@@ -180,7 +180,9 @@ MMC200Axis::MMC200Axis(MMC200Controller *pC, int axisNo)
     model_ = -1;
   }
 
-  // Read the axis resolution (units = tens of picometers per full step)
+  // Read the axis resolution 
+  // for MMC-200, units = tens of picometers per full step
+  // for MMC-1xx, units = steps per micrometer, or steps per milli-degree
   sprintf(pC_->outString_, "%dREZ?", axisIndex_);
   status = pC_->writeReadController();
   if (status != asynSuccess)
@@ -199,12 +201,19 @@ MMC200Axis::MMC200Axis(MMC200Controller *pC, int axisNo)
   }
   else
   {
-    // The MMC-100 has a fixed number of microsteps
-    microSteps_ = 100;
+    // The MMC-1xx controllers don't use microsteps
+    microSteps_ = 1;
   }
   
-  // Calculate motor resolution (mm / microstep)
-  resolution_ = rez_ * 1e-8 / microSteps_;
+  // Calculate motor resolution (mm / microstep or deg / microstep)
+  if ( model_ == 200 )
+  {
+    resolution_ = rez_ * 1e-8 / microSteps_;
+  }
+  else
+  {
+    resolution_ = 1e-3 / rez_;
+  }
 
   // Read max velocity (needed for jog speed calculation)
   sprintf(pC_->outString_, "%dVMX?", axisIndex_);
