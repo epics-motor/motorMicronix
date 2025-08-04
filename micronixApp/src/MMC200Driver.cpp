@@ -163,6 +163,10 @@ MMC200Axis::MMC200Axis(MMC200Controller *pC, int axisNo)
     {
       model_ = 103;
     } 
+    else if (strncmp(pC_->inString_, "#MMC-110", 8) == 0)
+    {
+      model_ = 110;
+    }
     else
     {
       asynPrint(pC_->pasynUserSelf, ASYN_TRACE_ERROR, 
