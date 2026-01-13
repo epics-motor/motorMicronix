@@ -167,6 +167,10 @@ MMC200Axis::MMC200Axis(MMC200Controller *pC, int axisNo)
     {
       model_ = 110;
     }
+    else if (strncmp(pC_->inString_, "#MMC-ETH", 8) == 0)
+    {
+      model_ = 999;
+    }
     else
     {
       asynPrint(pC_->pasynUserSelf, ASYN_TRACE_ERROR, 
@@ -184,6 +188,10 @@ MMC200Axis::MMC200Axis(MMC200Controller *pC, int axisNo)
     model_ = -1;
   }
   
+  // Ignore axis if MMC-ETHERNET module
+  if ( model_ == 999 )
+    return;
+
   // Read the closed-loop mode (0 = Open Loop; 1,2,3 = Closed Loop)
   sprintf(pC_->outString_, "%dFBK?", axisIndex_);
   status = pC_->writeReadController();
@@ -436,6 +444,10 @@ asynStatus MMC200Axis::poll(bool *moving)
   double pos;
   double enc;
   asynStatus comStatus;
+
+  // Ignore axis if MMC-ETHERNET module
+  if ( model_ == 999 )
+    return asynSuccess;
 
   // Read the current motor position
   sprintf(pC_->outString_, "%dPOS?", axisIndex_);
